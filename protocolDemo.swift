@@ -15,12 +15,14 @@ class Lottie : ThirdPartyLicenseProto{
     let name = "Lottie"
     let license = "License description of Lottie"
     let releasedYear = 2019
+    let ownerName = "Test Name"
 }
 
 class ProgressHUDSDK : ThirdPartyLicenseProto{
     let name = "Progress HUDSDK"
     let license = "License description of progress HUDSDK"
     let releasedYear = 2009
+    let fieldName = "Server"
 }
 
 class NewSDK : ThirdPartyLicenseProto {
@@ -43,3 +45,4 @@ var thirdPartyArray : [ThirdPartyLicenseProto] = [ Lottie(), ProgressHUDSDK(), N
 if !thirdPartyArray.isEmpty{
     Library().printAllLicenses(thirdPartyArray)
 }
+
