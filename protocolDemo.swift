@@ -1,50 +1,44 @@
 import Foundation
 import Glibc
 
-protocol ThirdPartyProto {
+protocol ThirdPartyLicenseProto {
     var name : String {get}
     var license : String {get}
+    var releasedYear : Int {get}
 }
 
 protocol LibraryProto {
-    func printAllLicenses (_ thirdParties :[ThirdPartyProto])
+    func printAllLicenses (_ thirdParties :[ThirdPartyLicenseProto])
 }
 
-class ThirdParty : ThirdPartyProto {
-    var name : String
-    var license : String 
+class Lottie : ThirdPartyLicenseProto{
+    let name = "Lottie"
+    let license = "License description of Lottie"
+    let releasedYear = 2019
+}
 
-    init (name : String, license : String){
-        self.name = name
-        self.license = license
-    }   
+class ProgressHUDSDK : ThirdPartyLicenseProto{
+    let name = "Progress HUDSDK"
+    let license = "License description of progress HUDSDK"
+    let releasedYear = 2009
+}
+
+class NewSDK : ThirdPartyLicenseProto {
+    let name = "New SDK"
+    let license = "License description of New SDK"
+    let releasedYear = 2010
+
 }
 
 class Library : LibraryProto{
-    func printAllLicenses (_ thirdParties : [ThirdPartyProto]) {
+    func printAllLicenses (_ thirdParties : [ThirdPartyLicenseProto]) {
         for thirdParty in thirdParties {
-            print ("Name : \(thirdParty.name)  \nLicense : \(thirdParty.license)")
+            print ("Name : \(thirdParty.name)  \nLicense : \(thirdParty.license) \nReleased On: \(thirdParty.releasedYear) \n\n")
         }
     }
 }
 
-func addNewThirdParty (_ newParty : ThirdPartyProto){
-    thirdPartyArray.append(newParty)
-}
-
-var thirdPartyArray = [ThirdPartyProto]()
-
-let lottieLicense = "License description of Lottie"
-let lottie = ThirdParty (name : "Lottie", license : lottieLicense )
-addNewThirdParty(lottie)
-
-let progressHUDSDKlicense = "License description of progress HUDSDK"
-let progressHUDSDK = ThirdParty (name : "Progress HUDSDK", license : progressHUDSDKlicense )
-addNewThirdParty(progressHUDSDK)
-
-let newSDKLicense = "License description of New SDK"
-let newSDK = ThirdParty (name : "New SDK", license : newSDKLicense)
-addNewThirdParty(newSDK)
+var thirdPartyArray : [ThirdPartyLicenseProto] = [ Lottie(), ProgressHUDSDK(), NewSDK()]
 
 if !thirdPartyArray.isEmpty{
     Library().printAllLicenses(thirdPartyArray)
