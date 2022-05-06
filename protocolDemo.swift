@@ -2,8 +2,8 @@ import Foundation
 import Glibc
  
 protocol ThirdPartyProto {
-    var name : String {get set}
-    var license : String {get set}
+    var name : String {get}
+    var license : String {get}
 }
 
 class ThirdParty : ThirdPartyProto {
