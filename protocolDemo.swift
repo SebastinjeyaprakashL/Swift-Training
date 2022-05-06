@@ -13,9 +13,7 @@ class ThirdParty : ThirdPartyProto {
     init (name : String, license : String){
         self.name = name
         self.license = license
-    }
-    
-    
+    }    
 }
 
 class Library {
