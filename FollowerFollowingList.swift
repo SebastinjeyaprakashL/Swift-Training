@@ -5,6 +5,11 @@ protocol TableViewProtocol {
     func showDetail()
 }
 
+protocol UserListAPI {
+    static var button : String { get }
+    static func getUsers () -> ([User])
+}
+
 struct User {
     var name : String
     var image : String
@@ -36,12 +41,6 @@ newFollowing1.addFollowing(newFollowing1)
 
 var newFollowing2 = User (name: "Peter", image: "testImage_4")
 newFollowing2.addFollowing(newFollowing2)
-
-protocol UserListAPI {
-    static var button : String { get }
-    static func getUsers () -> ([User])
-}
-
 
 class FollowersListAPI : UserListAPI {
     static var button = "Remove"
