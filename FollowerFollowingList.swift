@@ -1,9 +1,8 @@
 import Foundation
 
 protocol TableViewProtocol {
-    var config : Action { get set}
+    var currentView : UserListAPI.Type { get }
     func showDetail()
-    func getUsers ()->(users : [User], button : String)
 }
 
 struct User {
@@ -14,90 +13,72 @@ struct User {
         self.name = name
         self.image = image
     }
+    func addFollower ( _ newUser : User){
+        followerList.append(newUser)
+    }
+
+    func addFollowing (_ newUser : User) {
+        followingList.append(newUser)
+    }
 }
 var followerList = [User]()
 var followingList = [User]()
 
-
-func addFollower ( _ newUser : User){
-    followerList.append(newUser)
-}
-
-
-func addFollowing (_ newUser : User) {
-    followingList.append(newUser)
-}
-
- 
 var newFollower1 = User (name : "Prakash", image : "testImage_1")
-addFollower(newFollower1)
+newFollower1.addFollower(newFollower1)
 
 var newFollower2 = User(name : "sebastin", image : "testImage_2")
-addFollower(newFollower2)
+newFollower2.addFollower(newFollower2)
 
 
 var newFollowing1 = User (name : "John", image : "testImage_3")
-addFollowing(newFollowing1)
+newFollowing1.addFollowing(newFollowing1)
 
 var newFollowing2 = User (name: "Peter", image: "testImage_4")
-addFollowing(newFollowing2)
+newFollowing2.addFollowing(newFollowing2)
 
-class FollowersAPI {
+protocol UserListAPI {
+    static var button : String { get }
+    static func getUsers () -> ([User])
+}
+
+
+class FollowersListAPI : UserListAPI {
     static var button = "Remove"
+    
     static func getUsers () -> [User] {
         return followerList
     }
 }
 
-class FollowingAPI {
+class FollowingListAPI : UserListAPI {
     static var button = "Following"
+    
     static func getUsers () -> [User] {
         return followingList
     }
 }
 
-
-
-
-enum Action {
-    case FollowersAPI(_ currentAction: FollowersAPI.Type)
-    case FollowingAPI(_ currentAction: FollowingAPI.Type)
-}
-
-struct TableView : TableViewProtocol {
-    var config : Action
-    init (config : Action){
-        self.config = config
-        
+struct TableView : TableViewProtocol{
+    var currentView : UserListAPI.Type
+    init (currentView : UserListAPI.Type){
+        self.currentView = currentView
     }
-    func showDetail () {
-        let usersDetail = getUsers()
-        for (index,user) in usersDetail.users.enumerated() {
-            print("\(index + 1)) \(user.image) - \(user.name) - \(usersDetail.button)")
+    func showDetail (){
+        let userList = self.currentView.getUsers()
+        let button = self.currentView.button
+        
+        for (index,user) in userList.enumerated(){
+            print("\(index + 1)) \(user.image) - \(user.name) - \(button)")
         }
         print("\n")
-        
-     }
-    
-     func getUsers ()->(users : [User], button : String){
-        var currentCategoryUserArray = [User] ()
-        var button : String
-        switch self.config {
-            case .FollowersAPI(let currentAction):
-            currentCategoryUserArray = currentAction.getUsers()
-                button = currentAction.button
-            case .FollowingAPI(let currentAction):
-            currentCategoryUserArray = currentAction.getUsers()
-                button = currentAction.button
-        }
-        return (currentCategoryUserArray,button)
     }
 }
+let followingTable = TableView(currentView: FollowingListAPI.self)
+print("Followers List")
+followingTable.showDetail()
 
-let  followerTable  = TableView(config : Action.FollowersAPI(FollowersAPI.self))
+let  followerTable  = TableView(currentView : FollowersListAPI.self)
 print("Followers List")
 followerTable.showDetail()
 
-let  followingTable = TableView(config : Action.FollowingAPI(FollowingAPI.self))
-print("Following List")
-followingTable.showDetail()
