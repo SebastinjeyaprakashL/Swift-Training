@@ -71,26 +71,26 @@ struct TableView : TableViewProtocol {
         
     }
     func showDetail () {
-        let userDetail = getUsers()
-        for (index,user) in userDetail.users.enumerated() {
-            print("\(index + 1)) \(user.image) \(user.name) \(userDetail.button)")
+        let usersDetail = getUsers()
+        for (index,user) in usersDetail.users.enumerated() {
+            print("\(index + 1)) \(user.image) - \(user.name) - \(usersDetail.button)")
         }
         print("\n")
         
      }
     
      func getUsers ()->(users : [User], button : String){
-        var currentUserArray = [User] ()
+        var currentCategoryUserArray = [User] ()
         var button : String
         switch self.config {
             case .FollowersAPI(let currentAction):
-                currentUserArray = currentAction.getUsers()
+            currentCategoryUserArray = currentAction.getUsers()
                 button = currentAction.button
             case .FollowingAPI(let currentAction):
-                currentUserArray = currentAction.getUsers()
+            currentCategoryUserArray = currentAction.getUsers()
                 button = currentAction.button
         }
-        return (currentUserArray,button)
+        return (currentCategoryUserArray,button)
     }
 }
 
