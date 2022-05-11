@@ -74,7 +74,7 @@ struct TableView : TableViewProtocol{
     }
 }
 let followingTable = TableView(currentView: FollowingListAPI.self)
-print("Followers List")
+print("Following List")
 followingTable.showDetail()
 
 let  followerTable  = TableView(currentView : FollowersListAPI.self)
