@@ -1,13 +1,13 @@
 import Foundation
 
 protocol TableViewProtocol {
-    var currentView : UserListAPI.Type { get }
+    var currentView : UserListAPI { get }
     func showDetail()
 }
 
 protocol UserListAPI {
-    static var button : String { get }
-    static func getUsers () -> ([User])
+    var button : String { get }
+    func getUsers () -> ([User])
 }
 
 struct User {
@@ -43,24 +43,24 @@ var newFollowing2 = User (name: "Peter", image: "testImage_4")
 newFollowing2.addFollowing(newFollowing2)
 
 class FollowersListAPI : UserListAPI {
-    static var button = "Remove"
+    var button = "Remove"
     
-    static func getUsers () -> [User] {
+    func getUsers () -> [User] {
         return followerList
     }
 }
 
 class FollowingListAPI : UserListAPI {
-    static var button = "Following"
+    var button = "Following"
     
-    static func getUsers () -> [User] {
+    func getUsers () -> [User] {
         return followingList
     }
 }
 
 struct TableView : TableViewProtocol{
-    var currentView : UserListAPI.Type
-    init (currentView : UserListAPI.Type){
+    var currentView : UserListAPI
+    init (currentView : UserListAPI){
         self.currentView = currentView
     }
     func showDetail (){
@@ -73,11 +73,12 @@ struct TableView : TableViewProtocol{
         print("\n")
     }
 }
-let followingTable = TableView(currentView: FollowingListAPI.self)
+
+let followingTable = TableView(currentView: FollowersListAPI())
 print("Following List")
 followingTable.showDetail()
 
-let  followerTable  = TableView(currentView : FollowersListAPI.self)
+let  followerTable  = TableView(currentView : FollowersListAPI())
 print("Followers List")
 followerTable.showDetail()
 
